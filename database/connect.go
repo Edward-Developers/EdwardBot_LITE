@@ -3,20 +3,20 @@ package database
 import (
 	"log"
 	"fmt"
+	"EdwardBot_LITE/config"
 	r "gopkg.in/rethinkdb/rethinkdb-go.v6"
 )
 
-func ConnectTest(a int, b int) int {
-	return a + b
-}
 func Connect() {
 	session, err := r.Connect(r.ConnectOpts{
-		Address: "localhost:28015",
-		Database: "test",
-		AuthKey:  "14daak1cad13dj",
+		Address: config.Address,
+		Database: config.Database,
+		Username: config.Username,
+		Password: config.Password,
 	})
 	if err != nil {
 		log.Fatalln(err)
 	}
-	fmt.Println(session)
+	fmt.Println("Database connect!")
+	CreateTables(session)
 }

@@ -3,7 +3,6 @@ package events
 import (
 	"github.com/bwmarrin/discordgo"
 	"EdwardBot_LITE/commands"
-	"EdwardBot_LITE/config"
 )
 
 func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
@@ -11,7 +10,9 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 	if m.Content == "!ping" {
-		commands.Ping()
-		s.ChannelMessageSend(m.ChannelID, "Pong! " + config.Version)
+		commands.Ping(s, m)
+	}
+	if m.Content == "!help" {
+		commands.Help(s, m)
 	}
 }
