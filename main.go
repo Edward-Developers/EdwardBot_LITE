@@ -6,8 +6,9 @@ import (
 	"os/signal"
 	"syscall"
 	"github.com/bwmarrin/discordgo"
-	"EdwardBot_LITE/events"
 	"EdwardBot_LITE/config"
+	"EdwardBot_LITE/database"
+	"EdwardBot_LITE/events"
 )
 
 func main() {
@@ -28,6 +29,7 @@ func main() {
 	}
 
 	fmt.Println("Bot is now running.")
+	fmt.Println(database.ConnectTest(1, 9))
 	sc := make(chan os.Signal, 1)
 	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
 	<-sc
