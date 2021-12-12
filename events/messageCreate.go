@@ -12,6 +12,6 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 	if m.Content == "!ping" {
 		commands.Ping()
-		s.ChannelMessageSend(m.ChannelID, "Pong!" + config.Version)
+		s.ChannelMessageSend(m.ChannelID, "Pong! " + config.Version)
 	}
 }
