@@ -1,4 +1,4 @@
-package commands
+package information
 
 import (
 	"github.com/bwmarrin/discordgo"

@@ -2,7 +2,8 @@ package events
 
 import (
 	"github.com/bwmarrin/discordgo"
-	"EdwardBot_LITE/commands"
+	"EdwardBot_LITE/commands/economy"
+	"EdwardBot_LITE/commands/information"
 )
 
 func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
@@ -10,9 +11,15 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 	if m.Content == "!ping" {
-		commands.Ping(s, m)
+		information.Ping(s, m)
 	}
 	if m.Content == "!help" {
-		commands.Help(s, m)
+		information.Help(s, m)
+	}
+	if m.Content == "!bank" {
+		economy.Bank(s, m)
+	}
+	if m.Content == "!work" {
+		economy.Work(s, m)
 	}
 }
