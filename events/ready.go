@@ -9,4 +9,5 @@ func Ready(s *discordgo.Session, r *discordgo.Ready) {
 	for _, guild := range r.Guilds {
 		fmt.Println(guild.ID)
     }
+	fmt.Println("Bot is now running!")
 }

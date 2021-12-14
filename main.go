@@ -12,6 +12,10 @@ import (
 )
 
 func main() {
+	var Connect = database.Connect()
+	database.Session = Connect
+	database.CreateTables(Connect)
+
 	dg, err := discordgo.New("Bot " + config.Token)
 	if err != nil {
 		fmt.Println("error creating Discord session,", err)
@@ -19,6 +23,7 @@ func main() {
 	}
 
 	dg.AddHandler(events.MessageCreate)
+	dg.AddHandler(events.Ready)
 
 	dg.Identify.Intents = discordgo.IntentsGuildMessages
 
@@ -28,8 +33,6 @@ func main() {
 		return
 	}
 
-	database.Connect()
-	fmt.Println("Bot is now running.")
 	sc := make(chan os.Signal, 1)
 	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
 	<-sc

@@ -7,7 +7,9 @@ import (
 	r "gopkg.in/rethinkdb/rethinkdb-go.v6"
 )
 
-func Connect() {
+var Session * r.Session
+
+func Connect() *r.Session {
 	session, err := r.Connect(r.ConnectOpts{
 		Address: config.Address,
 		Database: config.Database,
@@ -18,5 +20,5 @@ func Connect() {
 		log.Fatalln(err)
 	}
 	fmt.Println("Database connect!")
-	CreateTables(session)
+	return session
 }
