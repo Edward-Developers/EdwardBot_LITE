@@ -3,7 +3,7 @@ package information
 import (
 	"github.com/bwmarrin/discordgo"
 )
-func Help(s *discordgo.Session, m *discordgo.MessageCreate) {
+func Help(s *discordgo.Session, m *discordgo.MessageCreate, g []*discordgo.Guild) {
 	var fields []*discordgo.MessageEmbedField
 	var field1 = &discordgo.MessageEmbedField{
 		Name:   "Test",
