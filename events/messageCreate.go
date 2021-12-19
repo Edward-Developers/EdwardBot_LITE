@@ -30,6 +30,9 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if m.Content == prefix + "bank" {
 		economy.Bank(s, m, Guilds)
 	}
+	if m.Content == prefix + "shop" {
+		economy.Shop(s, m, Guilds)
+	}
 	if m.Content == prefix + "work" {
 		economy.Work(s, m, Guilds)
 	}

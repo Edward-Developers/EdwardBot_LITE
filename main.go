@@ -9,6 +9,7 @@ import (
 	"EdwardBot_LITE/config"
 	"EdwardBot_LITE/database"
 	"EdwardBot_LITE/events"
+	"EdwardBot_LITE/webpage"
 )
 
 func main() {
@@ -22,7 +23,10 @@ func main() {
 		return
 	}
 
+	dg.AddHandler(events.GuildCreate)
+	dg.AddHandler(events.GuildDelete)
 	dg.AddHandler(events.MessageCreate)
+	dg.AddHandler(events.MessageDelete)
 	dg.AddHandler(events.Ready)
 
 	dg.Identify.Intents = discordgo.IntentsGuildMessages
@@ -32,6 +36,8 @@ func main() {
 		fmt.Println("error opening connection,", err)
 		return
 	}
+
+	webpage.Start()
 
 	sc := make(chan os.Signal, 1)
 	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)

@@ -5,3 +5,7 @@ type EconomyUser struct {
 	COIN int64
 	BANK int64
 }
+type EconomyUserUpdate struct {
+	COIN int64
+	BANK int64
+}

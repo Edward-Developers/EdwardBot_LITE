@@ -34,8 +34,7 @@ func Work(s *discordgo.Session, m *discordgo.MessageCreate, g []*discordgo.Guild
 	bankInt, _ := strconv.ParseInt(bankString, 0, 64)
 	var randomInt = rand.Intn(max - min) + min
 	var coinUpdate = coinInt + int64(randomInt)
-	r.Table("Economies").Get(m.Author.ID).Update(structs.EconomyUser{
-		ID: m.Author.ID,
+	r.Table("Economies").Get(m.Author.ID).Update(structs.EconomyUserUpdate{
 		COIN: coinUpdate,
 		BANK: bankInt,
 	}).Exec(database.Session)
