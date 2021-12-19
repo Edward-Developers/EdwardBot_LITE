@@ -9,6 +9,7 @@ import (
 	"EdwardBot_LITE/config"
 	"EdwardBot_LITE/database"
 	"EdwardBot_LITE/events"
+	"EdwardBot_LITE/processes"
 	"EdwardBot_LITE/webpage"
 )
 
@@ -36,7 +37,7 @@ func main() {
 		fmt.Println("error opening connection,", err)
 		return
 	}
-
+	processes.Giveaway()
 	webpage.Start()
 
 	sc := make(chan os.Signal, 1)
