@@ -3,7 +3,7 @@ module EdwardBot_LITE
 go 1.19
 
 require (
-	github.com/bwmarrin/discordgo v0.27.0
+	github.com/bwmarrin/discordgo v0.27.1
 	gopkg.in/rethinkdb/rethinkdb-go.v6 v6.2.2
 )
 
