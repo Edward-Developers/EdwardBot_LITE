@@ -5,5 +5,8 @@ import (
 )
 
 func Prefix(s *discordgo.Session, m *discordgo.MessageCreate, g []*discordgo.Guild) {
-	s.ChannelMessageSend(m.ChannelID, "Prefix!")
+	_, err := s.ChannelMessageSend(m.ChannelID, "Prefix!")
+	if err != nil {
+		return
+	}
 }

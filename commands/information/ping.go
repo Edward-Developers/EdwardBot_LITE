@@ -1,12 +1,15 @@
 package information
 
 import (
+	"EdwardBot_LITE/config"
 	"fmt"
 	"github.com/bwmarrin/discordgo"
-	"EdwardBot_LITE/config"
 )
 
 func Ping(s *discordgo.Session, m *discordgo.MessageCreate, g []*discordgo.Guild) {
-	s.ChannelMessageSend(m.ChannelID, "Pong! " + config.Version)
+	_, err := s.ChannelMessageSend(m.ChannelID, "Pong! "+config.Version)
+	if err != nil {
+		return
+	}
 	fmt.Println(g)
 }

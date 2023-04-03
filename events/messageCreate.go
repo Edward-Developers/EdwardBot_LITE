@@ -1,12 +1,12 @@
 package events
 
 import (
-	"github.com/bwmarrin/discordgo"
-	"EdwardBot_LITE/database"
-	r "gopkg.in/rethinkdb/rethinkdb-go.v6"
 	"EdwardBot_LITE/commands/economy"
 	"EdwardBot_LITE/commands/information"
 	"EdwardBot_LITE/commands/settings"
+	"EdwardBot_LITE/database"
+	"github.com/bwmarrin/discordgo"
+	r "gopkg.in/rethinkdb/rethinkdb-go.v6"
 )
 
 func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
@@ -21,23 +21,28 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 	data, _ := row.(map[string]interface{})
 	var prefix = data["PREFIX"].(string)
-	if m.Content ==  prefix + "ping" {
+	if m.Content == prefix+"ping" {
 		information.Ping(s, m, Guilds)
 	}
-	if m.Content == prefix + "help" {
+	if m.Content == prefix+"help" {
 		information.Help(s, m, Guilds)
 	}
-	if m.Content == prefix + "bank" {
+	if m.Content == prefix+"bank" {
 		economy.Bank(s, m, Guilds)
 	}
-	if m.Content == prefix + "shop" {
+	if m.Content == prefix+"shop" {
 		economy.Shop(s, m, Guilds)
 	}
-	if m.Content == prefix + "work" {
+	if m.Content == prefix+"work" {
 		economy.Work(s, m, Guilds)
 	}
-	if m.Content == prefix + "prefix" {
+	if m.Content == prefix+"prefix" {
 		settings.Prefix(s, m, Guilds)
 	}
-	defer settingsP.Close()
+	defer func(settingsP *r.Cursor) {
+		err := settingsP.Close()
+		if err != nil {
+			return
+		}
+	}(settingsP)
 }

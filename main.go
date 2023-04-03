@@ -1,16 +1,16 @@
 package main
 
 import (
-	"fmt"
-	"os"
-	"os/signal"
-	"syscall"
-	"github.com/bwmarrin/discordgo"
 	"EdwardBot_LITE/config"
 	"EdwardBot_LITE/database"
 	"EdwardBot_LITE/events"
 	"EdwardBot_LITE/processes"
 	"EdwardBot_LITE/webpage"
+	"fmt"
+	"github.com/bwmarrin/discordgo"
+	"os"
+	"os/signal"
+	"syscall"
 )
 
 func main() {
@@ -44,5 +44,8 @@ func main() {
 	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
 	<-sc
 
-	dg.Close()
+	err = dg.Close()
+	if err != nil {
+		return
+	}
 }

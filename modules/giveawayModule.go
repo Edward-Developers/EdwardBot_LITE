@@ -1,8 +1,8 @@
 package modules
 
 import (
-	"fmt"
 	"EdwardBot_LITE/events"
+	"fmt"
 )
 
 func GiveawayModule() {

@@ -1,8 +1,8 @@
 package processes
 
 import (
-	"time"
 	"EdwardBot_LITE/modules"
+	"time"
 )
 
 func Giveaway() {

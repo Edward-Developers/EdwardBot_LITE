@@ -5,5 +5,8 @@ import (
 )
 
 func Shop(s *discordgo.Session, m *discordgo.MessageCreate, g []*discordgo.Guild) {
-
+	_, err := s.ChannelMessageSend(m.ChannelID, "Shop ")
+	if err != nil {
+		return
+	}
 }

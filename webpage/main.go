@@ -2,23 +2,32 @@ package webpage
 
 import (
 	"fmt"
-	"runtime"
 	"net/http"
+	"runtime"
 	"time"
 )
 
 func greet(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello World! %s", time.Now())
+	_, err := fmt.Fprintf(w, "Hello World! %s", time.Now())
+	if err != nil {
+		return
+	}
 }
 
 func stats(w http.ResponseWriter, r *http.Request) {
 	var m runtime.MemStats
-    runtime.ReadMemStats(&m)
-	fmt.Fprint(w, m.TotalAlloc / 1024 / 1024)
+	runtime.ReadMemStats(&m)
+	_, err := fmt.Fprint(w, m.TotalAlloc/1024/1024)
+	if err != nil {
+		return
+	}
 }
 
 func Start() {
 	http.HandleFunc("/", greet)
 	http.HandleFunc("/stats", stats)
-	http.ListenAndServe(":7070", nil)
+	err := http.ListenAndServe(":7070", nil)
+	if err != nil {
+		return
+	}
 }

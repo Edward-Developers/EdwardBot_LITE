@@ -19,10 +19,13 @@ func Help(s *discordgo.Session, m *discordgo.MessageCreate, g []*discordgo.Guild
 	fields = append(fields, field1)
 	fields = append(fields, field2)
 	var embed = &discordgo.MessageEmbed{
-		Type: "rich",
-		Title: "Test",
+		Type:        "rich",
+		Title:       "Test",
 		Description: "Test",
-		Fields: fields,
+		Fields:      fields,
 	}
-	s.ChannelMessageSendEmbed(m.ChannelID, embed)
+	_, err := s.ChannelMessageSendEmbed(m.ChannelID, embed)
+	if err != nil {
+		return
+	}
 }
