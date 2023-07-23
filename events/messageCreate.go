@@ -3,6 +3,7 @@ package events
 import (
 	"EdwardBot_LITE/commands/economy"
 	"EdwardBot_LITE/commands/information"
+	"EdwardBot_LITE/commands/music"
 	"EdwardBot_LITE/commands/settings"
 	"EdwardBot_LITE/database"
 	"github.com/bwmarrin/discordgo"
@@ -38,6 +39,9 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 	if m.Content == prefix+"prefix" {
 		settings.Prefix(s, m, Guilds)
+	}
+	if m.Content == prefix+"music" {
+		music.Play(s, m, Guilds)
 	}
 	defer func(settingsP *r.Cursor) {
 		err := settingsP.Close()

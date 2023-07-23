@@ -4,6 +4,7 @@ import (
 	"EdwardBot_LITE/config"
 	"EdwardBot_LITE/database"
 	"EdwardBot_LITE/events"
+	"EdwardBot_LITE/modules"
 	"EdwardBot_LITE/processes"
 	"EdwardBot_LITE/webpage"
 	"fmt"
@@ -38,6 +39,7 @@ func main() {
 		return
 	}
 	processes.Giveaway()
+	modules.LavalinkModule(dg.State)
 	webpage.Start()
 
 	sc := make(chan os.Signal, 1)
