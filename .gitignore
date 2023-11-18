@@ -1,6 +1,3 @@
 .env
-.env.test
-config/config.go
 EdwardBot_LITE.exe
-EdwardBot_LITE
 run.cmd
