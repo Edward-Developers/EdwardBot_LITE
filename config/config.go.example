@@ -1,7 +1,0 @@
-package config
-
-var Token = "token from the site https://discord.com/developers/applications"
-var Address = "adress ip with :28015 port"
-var Database = "used database, default is EdwardBot_LITE"
-var Username = "database username"
-var Password = "database password"
