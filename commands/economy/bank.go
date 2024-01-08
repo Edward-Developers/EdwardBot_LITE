@@ -3,6 +3,7 @@ package economy
 import (
 	"EdwardBot_LITE/database"
 	"EdwardBot_LITE/structs"
+	"errors"
 	"fmt"
 	"github.com/bwmarrin/discordgo"
 	r "gopkg.in/rethinkdb/rethinkdb-go.v6"
@@ -12,7 +13,7 @@ func Bank(s *discordgo.Session, m *discordgo.MessageCreate, g []*discordgo.Guild
 	economies, _ := r.Table("Economies").Get(m.Author.ID).Run(database.Session)
 	var row interface{}
 	err := economies.One(&row)
-	if err == r.ErrEmptyResult {
+	if errors.Is(err, r.ErrEmptyResult) {
 		err := r.Table("Economies").Insert(structs.EconomyUser{
 			ID:   m.Author.ID,
 			COIN: 0,
