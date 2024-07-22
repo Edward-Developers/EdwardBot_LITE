@@ -5,7 +5,7 @@ go 1.21
 require (
 	github.com/bwmarrin/discordgo v0.27.1
 	github.com/disgoorg/disgolink/v2 v2.0.1
-	github.com/disgoorg/snowflake/v2 v2.0.1
+	github.com/disgoorg/snowflake/v2 v2.0.3
 	golang.org/x/net v0.22.0
 	gopkg.in/rethinkdb/rethinkdb-go.v6 v6.2.2
 )
