@@ -20,6 +20,7 @@ func main() {
 	database.CreateTables(Connect)
 
 	dg, err := discordgo.New("Bot " + config.Token)
+
 	if err != nil {
 		fmt.Println("error creating Discord session,", err)
 		return

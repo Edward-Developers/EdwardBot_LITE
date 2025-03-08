@@ -1,6 +1,7 @@
 package config
 
 import "os"
+import _ "github.com/joho/godotenv/autoload"
 
 var Token = os.Getenv("TOKEN")
 var Address = os.Getenv("RETHINKDB_HOST")

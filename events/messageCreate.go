@@ -6,6 +6,7 @@ import (
 	"EdwardBot_LITE/commands/music"
 	"EdwardBot_LITE/commands/settings"
 	"EdwardBot_LITE/database"
+	"errors"
 	"github.com/bwmarrin/discordgo"
 	r "gopkg.in/rethinkdb/rethinkdb-go.v6"
 )
@@ -17,7 +18,7 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	settingsP, _ := r.Table("Settings").Get(m.GuildID).Run(database.Session)
 	var row interface{}
 	err := settingsP.One(&row)
-	if err == r.ErrEmptyResult {
+	if errors.Is(err, r.ErrEmptyResult) {
 		return
 	}
 	data, _ := row.(map[string]interface{})
