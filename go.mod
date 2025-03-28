@@ -7,7 +7,7 @@ require (
 	github.com/disgoorg/disgolink/v2 v2.0.1
 	github.com/disgoorg/snowflake/v2 v2.0.3
 	github.com/joho/godotenv v1.5.1
-	golang.org/x/net v0.37.0
+	golang.org/x/net v0.38.0
 	gopkg.in/rethinkdb/rethinkdb-go.v6 v6.2.2
 )
 
