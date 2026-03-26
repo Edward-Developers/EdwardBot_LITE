@@ -9,10 +9,19 @@ import (
 	r "gopkg.in/rethinkdb/rethinkdb-go.v6"
 )
 
-func Bank(s *discordgo.Session, m *discordgo.MessageCreate, g []*discordgo.Guild) {
-	economies, _ := r.Table("Economies").Get(m.Author.ID).Run(database.Session)
+func Bank(s *discordgo.Session, m *discordgo.MessageCreate) {
+	economies, err := r.Table("Economies").Get(m.Author.ID).Run(database.Session)
+	if err != nil {
+		return
+	}
+	defer economies.Close()
+
 	var row interface{}
-	err := economies.One(&row)
+	err = economies.One(&row)
+
+	var coin interface{} = 0
+	var bank interface{} = 0
+
 	if errors.Is(err, r.ErrEmptyResult) {
 		err := r.Table("Economies").Insert(structs.EconomyUser{
 			ID:   m.Author.ID,
@@ -22,18 +31,14 @@ func Bank(s *discordgo.Session, m *discordgo.MessageCreate, g []*discordgo.Guild
 		if err != nil {
 			return
 		}
+	} else if err == nil {
+		data, _ := row.(map[string]interface{})
+		coin = data["COIN"]
+		bank = data["BANK"]
 	}
-	data, _ := row.(map[string]interface{})
-	var coin = data["COIN"]
-	var bank = data["BANK"]
+
 	_, err = s.ChannelMessageSend(m.ChannelID, "Bank\nCoin: "+fmt.Sprint(coin)+"\nBank: "+fmt.Sprint(bank))
 	if err != nil {
 		return
 	}
-	defer func(economies *r.Cursor) {
-		err := economies.Close()
-		if err != nil {
-			return
-		}
-	}(economies)
 }

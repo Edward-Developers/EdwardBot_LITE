@@ -2,12 +2,13 @@ package processes
 
 import (
 	"EdwardBot_LITE/modules"
+	"github.com/bwmarrin/discordgo"
 	"time"
 )
 
-func Giveaway() {
-	var tick = time.Tick(30000 * time.Millisecond)
-	for range tick {
-		modules.GiveawayModule()
+func Giveaway(s *discordgo.Session) {
+	var ticker = time.NewTicker(30 * time.Second)
+	for range ticker.C {
+		modules.GiveawayModule(s)
 	}
 }

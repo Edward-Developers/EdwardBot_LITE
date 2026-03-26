@@ -9,6 +9,8 @@ import (
 	"EdwardBot_LITE/webpage"
 	"fmt"
 	"github.com/bwmarrin/discordgo"
+	"github.com/disgoorg/snowflake/v2"
+	"golang.org/x/net/context"
 	"os"
 	"os/signal"
 	"syscall"
@@ -32,15 +34,36 @@ func main() {
 	dg.AddHandler(events.MessageDelete)
 	dg.AddHandler(events.Ready)
 
-	dg.Identify.Intents = discordgo.IntentsGuildMessages
+	dg.AddHandler(func(s *discordgo.Session, v *discordgo.VoiceServerUpdate) {
+		guildID, _ := snowflake.Parse(v.GuildID)
+		modules.Lavalink.OnVoiceServerUpdate(context.TODO(), guildID, v.Token, v.Endpoint)
+	})
+
+	dg.AddHandler(func(s *discordgo.Session, v *discordgo.VoiceStateUpdate) {
+		if v.UserID != s.State.User.ID {
+			return
+		}
+		guildID, _ := snowflake.Parse(v.GuildID)
+		var channelID *snowflake.ID
+		if v.ChannelID != "" {
+			parsed, _ := snowflake.Parse(v.ChannelID)
+			channelID = &parsed
+		}
+		modules.Lavalink.OnVoiceStateUpdate(context.TODO(), guildID, channelID, v.SessionID)
+	})
+
+	dg.Identify.Intents = discordgo.IntentsGuildMessages | discordgo.IntentsGuildVoiceStates
 
 	err = dg.Open()
 	if err != nil {
 		fmt.Println("error opening connection,", err)
 		return
 	}
-	processes.Giveaway()
-	modules.LavalinkModule(dg.State)
+
+	go processes.Giveaway(dg)
+
+	var lava = modules.LavalinkModule(dg.State)
+	modules.Lavalink = lava
 	webpage.Start()
 
 	sc := make(chan os.Signal, 1)

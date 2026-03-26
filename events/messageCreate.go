@@ -15,39 +15,44 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if m.Author.ID == s.State.User.ID {
 		return
 	}
-	settingsP, _ := r.Table("Settings").Get(m.GuildID).Run(database.Session)
+
+	settingsP, err := r.Table("Settings").Get(m.GuildID).Run(database.Session)
+	if err != nil {
+		return
+	}
+	defer settingsP.Close()
+
 	var row interface{}
-	err := settingsP.One(&row)
+	err = settingsP.One(&row)
 	if errors.Is(err, r.ErrEmptyResult) {
 		return
 	}
+
 	data, _ := row.(map[string]interface{})
 	var prefix = data["PREFIX"].(string)
+
 	if m.Content == prefix+"ping" {
-		information.Ping(s, m, Guilds)
+		information.Ping(s, m)
 	}
 	if m.Content == prefix+"help" {
-		information.Help(s, m, Guilds)
+		information.Help(s, m)
 	}
 	if m.Content == prefix+"bank" {
-		economy.Bank(s, m, Guilds)
+		economy.Bank(s, m)
 	}
 	if m.Content == prefix+"shop" {
-		economy.Shop(s, m, Guilds)
+		economy.Shop(s, m)
 	}
 	if m.Content == prefix+"work" {
-		economy.Work(s, m, Guilds)
+		economy.Work(s, m)
 	}
 	if m.Content == prefix+"prefix" {
-		settings.Prefix(s, m, Guilds)
+		settings.Prefix(s, m)
 	}
-	if m.Content == prefix+"music" {
-		music.Play(s, m, Guilds)
+	if m.Content == prefix+"play" {
+		music.Play(s, m)
 	}
-	defer func(settingsP *r.Cursor) {
-		err := settingsP.Close()
-		if err != nil {
-			return
-		}
-	}(settingsP)
+	if m.Content == prefix+"stop" {
+		music.Stop(s, m)
+	}
 }
